@@ -10,11 +10,6 @@ export async function findLivroById(id) {
     return rows[0];
 }
 
-export async function removeLivro(id) {
-    const [result] = await db.query("DELETE FROM livro WHERE id = ?", [id]);
-    return result.affectedRows > 0;
-}
-
 export async function createLivro(livro) {
     const [result] = await db.query("INSERT INTO livro (titulo, estado_conservacao, descricao, num_paginas, data_publicacao, livro_status, usuario_id, area_conhecimento_id, editora_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [livro.titulo, livro.estado_conservacao, livro.descricao, livro.num_paginas, livro.data_publicacao, livro.livro_status, livro.usuario_id, livro.area_conhecimento_id, livro.editora_id]);
     return result.insertId;
@@ -33,4 +28,10 @@ export async function addAutoresToLivro(livroId, autores) {
 
 export async function removeAutoresFromLivro(livroId) {
     await db.query("DELETE FROM autor_livro WHERE livro_id = ?", [livroId]);
+}
+
+export async function removeLivro(id) {
+    await removeAutoresFromLivro(id);
+    const [result] = await db.query("DELETE FROM livro WHERE id = ?", [id]);
+    return result.affectedRows > 0;
 }
