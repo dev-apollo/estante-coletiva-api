@@ -57,6 +57,12 @@ INSERT INTO livro (titulo, estado_conservacao, descricao, num_paginas, data_publ
 ('1984', 'REGULAR', 'Distopia política.', 328, '1949-06-08', 'DOADO', 2, 1, 4),
 ('A Hora da Estrela', 'NOVO', 'Último romance de Clarice Lispector.', 87, '1977-10-01', 'DISPONIVEL', 3, 1, 1);
 
+INSERT INTO autor_livro (autor_id, livro_id) VALUES
+(1, 1),
+(3, 2),
+(4, 3),
+(2, 4);
+
 INSERT INTO solicitacao (data_solicitacao, data_conclusao, status, usuario_id, livro_id) VALUES
 ('2025-03-01', NULL, 'PENDENTE', 1, 1),
 ('2025-03-02', '2025-03-05', 'CONCLUIDA', 2, 2),

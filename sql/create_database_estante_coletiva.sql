@@ -43,7 +43,7 @@ CREATE TABLE usuario(
     sobrenome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(100) NOT NULL,
-    data_cadastro DATE NOT NULL,
+    data_cadastro DATE NOT NULL DEFAULT (CURRENT_DATE),
     usuario_status ENUM("ATIVO", "INATIVO") NOT NULL,
     cidade_id INT NOT NULL,
 	PRIMARY KEY (id),
@@ -54,7 +54,7 @@ CREATE TABLE usuario(
 
 CREATE TABLE mensagem(
 	id INT NOT NULL AUTO_INCREMENT,
-    data_envio TIMESTAMP NOT NULL,
+    data_envio TIMESTAMP NOT NULL CURRENT_TIMESTAMP,
     data_visualizacao TIMESTAMP,
     texto VARCHAR(255) NOT NULL,
     remetente_id INT NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE livro(
     descricao TEXT NOT NULL,
     num_paginas INT NOT NULL,
     data_publicacao DATE NOT NULL,
-    livro_status ENUM("DISPONIVEL", "DOADO") NOT NULL,
+    livro_status ENUM("DISPONIVEL", "DOADO") NOT NULL DEFAULT "DISPONIVEL",
     usuario_id INT NOT NULL,
     area_conhecimento_id INT NOT NULL,
     editora_id INT NOT NULL,
@@ -118,6 +118,18 @@ CREATE TABLE livro(
 		ON UPDATE CASCADE
         ON DELETE RESTRICT,
     FOREIGN KEY (editora_id) REFERENCES editora(id)
+		ON UPDATE CASCADE
+        ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
+CREATE TABLE autor_livro(
+    autor_id INT NOT NULL,
+    livro_id INT NOT NULL,
+    PRIMARY KEY (autor_id, livro_id),
+    FOREIGN KEY (autor_id) REFERENCES autor(id)
+		ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    FOREIGN KEY (livro_id) REFERENCES livro(id)
 		ON UPDATE CASCADE
         ON DELETE RESTRICT
 ) ENGINE=InnoDB;
